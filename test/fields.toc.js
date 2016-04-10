@@ -15,10 +15,11 @@ describe('.toc', function() {
   });
 
   describe('argv', function() {
-    it('should return an object', function() {
+    it('should expand an object', function() {
       var schema = cliSchema(app);
-      var obj = schema.normalize(['--toc=render:false']);
-      assert.deepEqual(obj, {toc: {render: false}});
+      assert.deepEqual(schema.normalize(['--toc=render']), {toc: {render: true}});
+      assert.deepEqual(schema.normalize(['--toc=render:true']), {toc: {render: true}});
+      assert.deepEqual(schema.normalize(['--toc=render:false']), {toc: {render: false}});
     });
 
     it('should convert false boolean to an object', function() {

@@ -21,6 +21,18 @@ describe('.related', function() {
       assert.deepEqual(obj, {related: { list: ['foo']}});
     });
 
+    it('should return an object when the value is `false`', function() {
+      var schema = cliSchema(app);
+      var obj = schema.normalize(['--related=false']);
+      assert.deepEqual(obj, {related: false});
+    });
+
+    it('should add `show` property when related is a boolean', function() {
+      var schema = cliSchema(app);
+      var obj = schema.normalize(['--related']);
+      assert.deepEqual(obj, {related: {show: true}});
+    });
+
     it('should move comma-separated values to `related.list`', function() {
       var schema = cliSchema(app);
       var obj = schema.normalize(['--related=foo,bar']);
@@ -30,6 +42,12 @@ describe('.related', function() {
     it('should filter falsey values', function() {
       var schema = cliSchema(app);
       var obj = schema.normalize(['--related=foo,']);
+      assert.deepEqual(obj, {related: {list: ['foo']}});
+    });
+
+    it('should arrayify a single list value', function() {
+      var schema = cliSchema(app);
+      var obj = schema.normalize(['--related.list=foo']);
       assert.deepEqual(obj, {related: {list: ['foo']}});
     });
 

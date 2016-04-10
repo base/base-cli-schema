@@ -28,6 +28,17 @@ describe('.cwd', function() {
       assert.deepEqual(obj, {cwd: path.resolve('foo')});
     });
 
+    it('should throw an error on invalid values', function(cb) {
+      var schema = cliSchema(app);
+      try {
+        schema.normalize(['--cwd=foo,bar,baz']);
+        cb(new Error('expected an error'));
+      } catch (err) {
+        assert.equal(err.message, "--toc: expected a string or boolean, but received: [ 'foo', 'bar', 'baz' ]");
+        cb();
+      }
+    });
+
     it('should not expand object notation', function() {
       var schema = cliSchema(app);
       var obj = schema.normalize(['--cwd=foo.bar']);

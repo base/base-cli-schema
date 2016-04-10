@@ -21,6 +21,12 @@ describe('.reflinks', function() {
       assert.deepEqual(obj, {reflinks: ['foo']});
     });
 
+    it('should add a `show` property when reflinks is a boolean', function() {
+      var schema = cliSchema(app);
+      var obj = schema.normalize(['--reflinks']);
+      assert.deepEqual(obj, {reflinks: {show: true}});
+    });
+
     it('should move comma-separated values to `reflinks`', function() {
       var schema = cliSchema(app);
       var obj = schema.normalize(['--reflinks=foo,bar']);

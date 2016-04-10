@@ -14,33 +14,68 @@ describe('.tasks', function() {
     app.use(argv());
   });
 
-  it('should remove undefined', function() {
-    var schema = cliSchema(app);
-    var obj = schema.normalize({tasks: undefined});
-    assert.deepEqual(obj, {});
+  describe('argv', function() {
+    it('should remove undefined', function() {
+      var schema = cliSchema(app);
+      var obj = schema.normalize(['--tasks=,,,']);
+      assert.deepEqual(obj, {});
+    });
+
+    it('should return the tasks object with boolean values', function() {
+      var schema = cliSchema(app);
+      assert.deepEqual(schema.normalize(['--tasks']), {tasks: true});
+      assert.deepEqual(schema.normalize(['--tasks=false']), {tasks: false});
+      assert.deepEqual(schema.normalize(['--tasks=true']), {tasks: true});
+    });
+
+    it('should arrayify a string', function() {
+      var schema = cliSchema(app);
+      var obj = schema.normalize(['--tasks=default']);
+      assert.deepEqual(obj, {tasks: ['default']});
+    });
+
+    it('should split comma-separated tasks', function() {
+      var schema = cliSchema(app);
+      var obj = schema.normalize(['--tasks=foo,bar,baz']);
+      assert.deepEqual(obj, {tasks: ['foo', 'bar', 'baz']});
+    });
+
+    it('should comma-separated values', function() {
+      var schema = cliSchema(app);
+      var obj = schema.normalize(['foo,bar,baz']);
+      assert.deepEqual(obj, {_: ['foo', 'bar', 'baz']});
+    });
   });
 
-  it('should remove undefined in array', function() {
-    var schema = cliSchema(app);
-    var obj = schema.normalize({tasks: [undefined]});
-    assert.deepEqual(obj, {});
-  });
+  describe('options object', function() {
+    it('should remove undefined', function() {
+      var schema = cliSchema(app);
+      var obj = schema.normalize({tasks: undefined});
+      assert.deepEqual(obj, {});
+    });
 
-  it('should arrayify a string', function() {
-    var schema = cliSchema(app);
-    var obj = schema.normalize({tasks: 'default'});
-    assert.deepEqual(obj, {tasks: ['default']});
-  });
+    it('should remove undefined in array', function() {
+      var schema = cliSchema(app);
+      var obj = schema.normalize({tasks: [undefined]});
+      assert.deepEqual(obj, {});
+    });
 
-  it('should return an array', function() {
-    var schema = cliSchema(app);
-    var obj = schema.normalize({tasks: ['default']});
-    assert.deepEqual(obj, {tasks: ['default']});
-  });
+    it('should arrayify a string', function() {
+      var schema = cliSchema(app);
+      var obj = schema.normalize({tasks: 'default'});
+      assert.deepEqual(obj, {tasks: ['default']});
+    });
 
-  it('should split comma-separated tasks', function() {
-    var schema = cliSchema(app);
-    var obj = schema.normalize({tasks: 'foo,bar,baz'});
-    assert.deepEqual(obj, {tasks: ['foo', 'bar', 'baz']});
+    it('should return an array', function() {
+      var schema = cliSchema(app);
+      var obj = schema.normalize({tasks: ['default']});
+      assert.deepEqual(obj, {tasks: ['default']});
+    });
+
+    it('should split comma-separated tasks', function() {
+      var schema = cliSchema(app);
+      var obj = schema.normalize({tasks: 'foo,bar,baz'});
+      assert.deepEqual(obj, {tasks: ['foo', 'bar', 'baz']});
+    });
   });
 });

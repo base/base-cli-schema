@@ -28,6 +28,12 @@ describe('.option', function() {
       assert.deepEqual(obj, {options: {foo: true}});
     });
 
+    it('should not set arrays', function() {
+      var schema = cliSchema(app);
+      var obj = schema.normalize(['--option=foo,bar,baz']);
+      assert.deepEqual(obj, {});
+    });
+
     it('should expand objects', function() {
       var schema = cliSchema(app);
       var obj = schema.normalize(['--option=foo:bar']);

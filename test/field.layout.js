@@ -28,6 +28,14 @@ describe('.layout', function() {
       assert.deepEqual(obj, {layout: 'foo'});
     });
 
+    it('should coerce falsey values to `false`', function() {
+      var schema = cliSchema(app);
+      assert.deepEqual(schema.normalize(['--layout=false']), {layout: false});
+      assert.deepEqual(schema.normalize(['--layout=null']), {layout: false});
+      assert.deepEqual(schema.normalize(['--layout=none']), {layout: false});
+      assert.deepEqual(schema.normalize(['--layout=nil']), {layout: false});
+    });
+
     it('should tableize object values', function() {
       var schema = cliSchema(app);
       var obj = schema.normalize(['--layout=foo.bar']);

@@ -81,6 +81,13 @@ module.exports = function(app, options) {
     }
     var obj = processArgv(app, argv);
     var res = fn.call(schema, obj, opts);
+
+    for (var key in utils.aliases) {
+      if (res.hasOwnProperty(key)) {
+        res[utils.aliases[key]] = res[key];
+      }
+    }
+
     res.isNormalized = true;
     return res;
   };

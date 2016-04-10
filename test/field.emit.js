@@ -22,6 +22,12 @@ describe('.emit', function() {
       assert.deepEqual(obj, {emit: ['*']});
     });
 
+    it('should split comma-separated values', function() {
+      var schema = cliSchema(app);
+      var obj = schema.normalize(['--emit=foo,bar,baz']);
+      assert.deepEqual(obj, {emit: ['foo', 'bar', 'baz']});
+    });
+
     it('should convert a string to an array', function() {
       var schema = cliSchema(app);
       var obj = schema.normalize(['--emit=foo']);

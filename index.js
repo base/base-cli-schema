@@ -46,6 +46,9 @@ module.exports = function(app, options) {
 
   // misc
   schema
+    .field('asyncHelpers', ['array', 'string'], {
+      normalize: fields.asyncHelpers(app, opts)
+    })
     .field('cwd', ['boolean', 'string'], {
       normalize: fields.cwd(app, opts)
     })
@@ -67,7 +70,7 @@ module.exports = function(app, options) {
     .field('tasks', ['array', 'string'], {
       normalize: fields.tasks(app, opts)
     })
-    .field('toc', ['object', 'string'], {
+    .field('toc', ['object', 'string', 'boolean'], {
       normalize: fields.toc(app, opts)
     });
 
@@ -82,6 +85,7 @@ module.exports = function(app, options) {
     if (argv.isNormalized) {
       return argv;
     }
+
     var obj = processArgv(app, argv);
     var res = fn.call(schema, obj, opts);
 
@@ -91,7 +95,7 @@ module.exports = function(app, options) {
       }
     }
 
-    res.isNormalized = true;
+    utils.define(res, 'isNormalized', true);
     return res;
   };
   return schema;

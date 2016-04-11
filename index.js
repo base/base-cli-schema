@@ -7,13 +7,13 @@
 
 'use strict';
 
-var debug = require('debug')('base:base-cli:schema');
+var debug = require('debug')('base:cli:schema');
 var processArgv = require('./lib/argv');
 var fields = require('./lib/fields');
 var utils = require('./lib/utils');
 
 module.exports = function(app, options) {
-  debug('creating cli schema');
+  debug('initializing <%s>, called from <%s>', __filename, module.parent.id);
 
   if (typeof app.argv !== 'function') {
     throw new Error('expected base-argv to be registered');
@@ -25,6 +25,9 @@ module.exports = function(app, options) {
 
   // Configuration, settings and data
   schema
+    .field('config', ['boolean', 'object', 'string'], {
+      normalize: fields.config(app, opts)
+    })
     .field('data', ['boolean', 'object', 'string'], {
       normalize: fields.data(app, opts)
     })

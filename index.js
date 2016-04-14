@@ -49,6 +49,9 @@ module.exports = function(app, options) {
     .field('asyncHelpers', ['array', 'string'], {
       normalize: fields.asyncHelpers(app, opts)
     })
+    .field('helpers', ['array', 'string'], {
+      normalize: fields.helpers(app, opts)
+    })
     .field('cwd', ['boolean', 'string'], {
       normalize: fields.cwd(app, opts)
     })

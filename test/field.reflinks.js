@@ -3,15 +3,12 @@
 require('mocha');
 var assert = require('assert');
 var cliSchema = require('..');
-var argv = require('base-argv');
-var Base = require('base');
+var App = require('./support');
 var app;
 
 describe('.reflinks', function() {
   beforeEach(function() {
-    app = new Base();
-    app.isApp = true;
-    app.use(argv());
+    app = new App();
   });
 
   describe('argv', function() {

@@ -1,18 +1,15 @@
 'use strict';
 
 require('mocha');
-var path = require('path');
 var assert = require('assert');
 var cliSchema = require('..');
-var argv = require('base-argv');
-var Base = require('base');
+var App = require('./support');
 var app;
 
 describe('.data', function() {
   beforeEach(function() {
-    app = new Base();
+    app = new App();
     app.isApp = true;
-    app.use(argv());
   });
 
   describe('argv', function() {
@@ -32,6 +29,18 @@ describe('.data', function() {
       var schema = cliSchema(app);
       var obj = schema.normalize(['--data=foo:bar']);
       assert.deepEqual(obj, {data: {foo: 'bar'}});
+    });
+
+    it('should not add arrays', function() {
+      var schema = cliSchema(app);
+      var obj = schema.normalize(['--data=foo,bar']);
+      assert.deepEqual(obj, {});
+    });
+
+    it('should expand an array of objects', function() {
+      var schema = cliSchema(app);
+      var obj = schema.normalize(['--data=foo:bar,baz:qux']);
+      assert.deepEqual(obj, {data: {foo: 'bar', baz: 'qux'}});
     });
   });
 

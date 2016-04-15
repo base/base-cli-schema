@@ -15,8 +15,14 @@ var utils = require('./lib/utils');
 module.exports = function(app, options) {
   debug('initializing <%s>, called from <%s>', __filename, module.parent.id);
 
+  if (typeof app.cwd !== 'string') {
+    throw new Error('expected the base-cwd plugin to be registered');
+  }
+  if (typeof app.pkg === 'undefined') {
+    throw new Error('expected the base-pkg plugin to be registered');
+  }
   if (typeof app.argv !== 'function') {
-    throw new Error('expected base-argv to be registered');
+    throw new Error('expected the base-argv plugin to be registered');
   }
 
   var opts = utils.merge({sortArrays: false, omitEmpty: true}, options);
@@ -42,7 +48,7 @@ module.exports = function(app, options) {
     })
     .field('option', ['boolean', 'object', 'string'], {
       normalize: fields.option(app, opts)
-    })
+    });
 
   // misc
   schema
@@ -89,7 +95,7 @@ module.exports = function(app, options) {
       return argv;
     }
 
-    var obj = processArgv(app, argv);
+    var obj = pluralize(processArgv(app, argv));
     var res = fn.call(schema, obj, opts);
 
     for (var key in utils.aliases) {
@@ -103,3 +109,24 @@ module.exports = function(app, options) {
   };
   return schema;
 };
+
+/**
+ * Ensure certain keys are pluralized (e.g. fix humans)
+ */
+
+function pluralize(obj) {
+  var props = ['helper', 'asyncHelper', 'plugin', 'engine', 'task'];
+  var res = {};
+
+  for (var key in obj) {
+    var val = obj[key];
+    if (key === 'config' && utils.isObject(val)) {
+      val = pluralize(val);
+    }
+    if (~props.indexOf(key)) {
+      key += 's';
+    }
+    res[key] = val;
+  }
+  return res;
+}

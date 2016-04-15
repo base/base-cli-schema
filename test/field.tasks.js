@@ -3,29 +3,26 @@
 require('mocha');
 var assert = require('assert');
 var cliSchema = require('..');
-var argv = require('base-argv');
-var Base = require('base');
+var App = require('./support');
 var app;
 
 describe('.tasks', function() {
   beforeEach(function() {
-    app = new Base();
-    app.isApp = true;
-    app.use(argv());
+    app = new App();
   });
 
-  describe('argv', function() {
+  describe('.tasks', function() {
     it('should remove undefined', function() {
       var schema = cliSchema(app);
       var obj = schema.normalize(['--tasks=,,,']);
       assert.deepEqual(obj, {});
     });
 
-    it('should return the tasks object with boolean values', function() {
+    it('should convert tasks booleans to `run`', function() {
       var schema = cliSchema(app);
-      assert.deepEqual(schema.normalize(['--tasks']), {tasks: true});
-      assert.deepEqual(schema.normalize(['--tasks=false']), {tasks: false});
-      assert.deepEqual(schema.normalize(['--tasks=true']), {tasks: true});
+      assert.deepEqual(schema.normalize(['--tasks']), {run: true});
+      assert.deepEqual(schema.normalize(['--tasks=false']), {run: false});
+      assert.deepEqual(schema.normalize(['--tasks=true']), {run: true});
     });
 
     it('should arrayify a string', function() {

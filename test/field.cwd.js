@@ -4,15 +4,13 @@ require('mocha');
 var path = require('path');
 var assert = require('assert');
 var cliSchema = require('..');
-var argv = require('base-argv');
-var Base = require('base');
+var App = require('./support');
 var app;
 
 describe('.cwd', function() {
   beforeEach(function() {
-    app = new Base();
+    app = new App();
     app.isApp = true;
-    app.use(argv());
   });
 
   describe('argv', function() {

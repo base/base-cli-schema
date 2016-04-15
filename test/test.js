@@ -3,31 +3,55 @@
 require('mocha');
 var assert = require('assert');
 var Base = require('base');
-var cli = require('base-cli');
-var argv = require('base-argv');
+var App = require('./support');
+var pkg = require('base-pkg');
+var cwd = require('base-cwd');
 var cliSchema = require('..');
-var app, base;
+var app;
 
 describe('base-cli-schema', function() {
   beforeEach(function() {
-    app = new Base();
-    app.isApp = true;
-    app.use(argv());
-  });
-
-  it('should throw an error when base-argv is not registered', function(cb) {
-    base = new Base();
-    try {
-      cliSchema(base);
-      cb(new Error('expected an error'));
-    } catch (err) {
-      assert.equal(err.message, 'expected base-argv to be registered');
-      cb();
-    }
+    app = new App();
   });
 
   it('should export a function', function() {
     assert.equal(typeof cliSchema, 'function');
+  });
+
+  it('should throw an error when base-cwd is not registered', function(cb) {
+    try {
+      var base = new Base();
+      cliSchema(base);
+      cb(new Error('expected an error'));
+    } catch (err) {
+      assert.equal(err.message, 'expected the base-cwd plugin to be registered');
+      cb();
+    }
+  });
+
+  it('should throw an error when base-pkg is not registered', function(cb) {
+    try {
+      var base = new Base();
+      base.use(cwd());
+      cliSchema(base);
+      cb(new Error('expected an error'));
+    } catch (err) {
+      assert.equal(err.message, 'expected the base-pkg plugin to be registered');
+      cb();
+    }
+  });
+
+  it('should throw an error when base-argv is not registered', function(cb) {
+    try {
+      var base = new Base();
+      base.use(cwd());
+      base.use(pkg());
+      cliSchema(base);
+      cb(new Error('expected an error'));
+    } catch (err) {
+      assert.equal(err.message, 'expected the base-argv plugin to be registered');
+      cb();
+    }
   });
 
   it('should add fields to the schema', function() {

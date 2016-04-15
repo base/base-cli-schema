@@ -3,15 +3,12 @@
 require('mocha');
 var assert = require('assert');
 var cliSchema = require('..');
-var argv = require('base-argv');
-var Base = require('base');
+var App = require('./support');
 var app;
 
 describe('.related', function() {
   beforeEach(function() {
-    app = new Base();
-    app.isApp = true;
-    app.use(argv());
+    app = new App();
   });
 
   describe('argv', function() {
@@ -42,6 +39,12 @@ describe('.related', function() {
     it('should filter falsey values', function() {
       var schema = cliSchema(app);
       var obj = schema.normalize(['--related=foo,']);
+      assert.deepEqual(obj, {related: {list: ['foo']}});
+    });
+
+    it('should convert object to keys', function() {
+      var schema = cliSchema(app);
+      var obj = schema.normalize(['--related.list=foo:true']);
       assert.deepEqual(obj, {related: {list: ['foo']}});
     });
 

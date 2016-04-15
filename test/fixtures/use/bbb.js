@@ -1,3 +1,3 @@
 module.exports = function bbb(app) {
-  app.emit('test');
-}
+  app.emit('test', 'BBB');
+};

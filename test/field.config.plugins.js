@@ -26,9 +26,9 @@ var pkgTmpl = {
 describe('.config.plugins', function() {
   beforeEach(function(cb) {
     app = assemble();
-    app.cwd = fixtures();
     app.use(argv());
     app.use(cwd());
+    app.cwd = fixtures();
     app.use(pkg());
     app.pkg.set(pkgTmpl);
     app.pkg.save();

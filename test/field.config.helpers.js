@@ -26,10 +26,10 @@ var pkgTmpl = {
 describe('.config.helpers', function() {
   beforeEach(function(cb) {
     app = assemble();
-    app.cwd = fixtures();
     app.use(argv());
     app.use(cwd());
     app.use(pkg());
+    app.cwd = fixtures();
     app.pkg.data = {};
     app.pkg.set(pkgTmpl);
     app.pkg.save();

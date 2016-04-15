@@ -17,9 +17,9 @@ var fixtures = path.resolve.bind(path, __dirname, 'fixtures');
 describe('.helpers', function() {
   beforeEach(function(cb) {
     app = assemble();
-    app.cwd = fixtures();
     app.use(argv());
     app.use(cwd());
+    app.cwd = fixtures();
     app.use(pkg());
     cb();
   });

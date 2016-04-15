@@ -10,7 +10,6 @@ var app;
 describe('.cwd', function() {
   beforeEach(function() {
     app = new App();
-    app.isApp = true;
   });
 
   describe('argv', function() {

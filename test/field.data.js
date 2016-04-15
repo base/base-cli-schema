@@ -9,7 +9,6 @@ var app;
 describe('.data', function() {
   beforeEach(function() {
     app = new App();
-    app.isApp = true;
   });
 
   describe('argv', function() {

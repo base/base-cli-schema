@@ -8,7 +8,6 @@ var cliSchema = require('..');
 var argv = require('base-argv');
 var cwd = require('base-cwd');
 var pkg = require('base-pkg');
-var del = require('delete');
 var app;
 
 var dir = process.cwd();

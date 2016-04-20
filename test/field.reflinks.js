@@ -27,7 +27,7 @@ describe('.reflinks', function() {
     it('should move comma-separated values to `reflinks`', function() {
       var schema = cliSchema(app);
       var obj = schema.normalize(['--reflinks=foo,bar']);
-      assert.deepEqual(obj, {reflinks: ['foo', 'bar']});
+      assert.deepEqual(obj, {reflinks: ['bar', 'foo']});
     });
 
     it('should filter falsey values', function() {
@@ -39,25 +39,25 @@ describe('.reflinks', function() {
     it('should split comma-separated values on `reflinks`', function() {
       var schema = cliSchema(app);
       var obj = schema.normalize(['--reflinks=foo,bar']);
-      assert.deepEqual(obj, {reflinks: ['foo', 'bar']});
+      assert.deepEqual(obj, {reflinks: ['bar', 'foo']});
     });
 
     it('should split comma-separated values on `reflinks=list`', function() {
       var schema = cliSchema(app);
       var obj = schema.normalize(['--reflinks:foo,bar']);
-      assert.deepEqual(obj, {reflinks: ['foo', 'bar']});
+      assert.deepEqual(obj, {reflinks: ['bar', 'foo']});
     });
 
     it('should split comma-separated values on `reflinks:list`', function() {
       var schema = cliSchema(app);
       var obj = schema.normalize(['--reflinks=foo,bar']);
-      assert.deepEqual(obj, {reflinks: ['foo', 'bar']});
+      assert.deepEqual(obj, {reflinks: ['bar', 'foo']});
     });
 
     it('should split comma-separated values on `reflinks list`', function() {
       var schema = cliSchema(app);
       var obj = schema.normalize(['--reflinks foo,bar']);
-      assert.deepEqual(obj, {reflinks: ['foo', 'bar']});
+      assert.deepEqual(obj, {reflinks: ['bar', 'foo']});
     });
   });
 
@@ -71,7 +71,7 @@ describe('.reflinks', function() {
     it('should move comma-separated values to `reflinks`', function() {
       var schema = cliSchema(app);
       var obj = schema.normalize({reflinks: 'foo,bar'});
-      assert.deepEqual(obj, {reflinks: ['foo', 'bar']});
+      assert.deepEqual(obj, {reflinks: ['bar', 'foo']});
     });
 
     it('should filter falsey values', function() {

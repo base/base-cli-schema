@@ -7,13 +7,13 @@
 
 'use strict';
 
-var debug = require('debug')('base:cli:schema');
 var processArgv = require('./lib/argv');
+var debug = require('./lib/debug');
 var fields = require('./lib/fields');
 var utils = require('./lib/utils');
 
 module.exports = function(app, options) {
-  debug('initializing <%s>, called from <%s>', __filename, module.parent.id);
+  debug.schema('initializing <%s>, called from <%s>', __filename, module.parent.id);
 
   if (typeof app.cwd !== 'string') {
     throw new Error('expected the base-cwd plugin to be registered');
@@ -89,14 +89,33 @@ module.exports = function(app, options) {
       normalize: fields.layout(app, opts)
     });
 
-  var fn = schema.normalize;
+  var normalizeField = schema.normalizeField;
+  schema.normalizeField = function(key, value, config, options) {
+    var field = schema.get(key);
+
+    var isUndefined = typeof val === 'undefined'
+      && typeof config[key] === 'undefined'
+      && typeof field.default === 'undefined';
+
+    if (isUndefined) {
+      return;
+    }
+
+    debug.field(key, value);
+    normalizeField.apply(schema, arguments);
+    if (typeof config[key] !== 'undefined') {
+      debug.results(key, config[key]);
+    }
+  };
+
+  var normalizeSchema = schema.normalize;
   schema.normalize = function(argv) {
     if (argv.isNormalized) {
       return argv;
     }
 
     var obj = pluralize(processArgv(app, argv));
-    var res = fn.call(schema, obj, opts);
+    var res = normalizeSchema.call(schema, obj, opts);
 
     for (var key in utils.aliases) {
       if (res.hasOwnProperty(key)) {

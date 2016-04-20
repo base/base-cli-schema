@@ -33,7 +33,7 @@ describe('.related', function() {
     it('should move comma-separated values to `related.list`', function() {
       var schema = cliSchema(app);
       var obj = schema.normalize(['--related=foo,bar']);
-      assert.deepEqual(obj, {related: {list: ['foo', 'bar']}});
+      assert.deepEqual(obj, {related: {list: ['bar', 'foo']}});
     });
 
     it('should filter falsey values', function() {
@@ -57,25 +57,25 @@ describe('.related', function() {
     it('should split comma-separated values on `related.list`', function() {
       var schema = cliSchema(app);
       var obj = schema.normalize(['--related.list=foo,bar']);
-      assert.deepEqual(obj, {related: {list: ['foo', 'bar']}});
+      assert.deepEqual(obj, {related: {list: ['bar', 'foo']}});
     });
 
     it('should split comma-separated values on `related=list`', function() {
       var schema = cliSchema(app);
       var obj = schema.normalize(['--related=list:foo,bar']);
-      assert.deepEqual(obj, {related: {list: ['foo', 'bar']}});
+      assert.deepEqual(obj, {related: {list: ['bar', 'foo']}});
     });
 
     it('should split comma-separated values on `related:list`', function() {
       var schema = cliSchema(app);
       var obj = schema.normalize(['--related.list=foo,bar']);
-      assert.deepEqual(obj, {related: {list: ['foo', 'bar']}});
+      assert.deepEqual(obj, {related: {list: ['bar', 'foo']}});
     });
 
     it('should split comma-separated values on `related list`', function() {
       var schema = cliSchema(app);
       var obj = schema.normalize(['--related list:foo,bar']);
-      assert.deepEqual(obj, {related: {list: ['foo', 'bar']}});
+      assert.deepEqual(obj, {related: {list: ['bar', 'foo']}});
     });
   });
 
@@ -89,7 +89,7 @@ describe('.related', function() {
     it('should move comma-separated values to `related.list`', function() {
       var schema = cliSchema(app);
       var obj = schema.normalize({related: 'foo,bar'});
-      assert.deepEqual(obj, {related: {list: ['foo', 'bar']}});
+      assert.deepEqual(obj, {related: {list: ['bar', 'foo']}});
     });
 
     it('should filter falsey values', function() {

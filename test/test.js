@@ -64,18 +64,6 @@ describe('base-cli-schema', function() {
     assert(schema.fields.hasOwnProperty('foo'));
   });
 
-  it('should normalize the given object', function() {
-    var schema = cliSchema(app)
-      .field('foo', 'string', {
-        normalize: function() {
-          return 'bar';
-        }
-      });
-
-    var obj = schema.normalize({});
-    assert.deepEqual(obj, {foo: 'bar'});
-  });
-
   it('should add a non-enumerable isNormalized property', function() {
     var schema = cliSchema(app)
       .field('foo', 'string', {

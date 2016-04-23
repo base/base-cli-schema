@@ -69,6 +69,18 @@ describe('.tasks', function() {
       assert.deepEqual(obj, {tasks: ['default']});
     });
 
+    it('should stringify a tasks object', function() {
+      var schema = cliSchema(app);
+      var obj = schema.normalize({tasks: { verb: { template: 'foo' }}});
+      assert.deepEqual(obj, {tasks: ['verb.template:foo']});
+    });
+
+    it('should stringify a tasks object with an array of tasks', function() {
+      var schema = cliSchema(app);
+      var obj = schema.normalize({tasks: { verb: { template: ['foo', 'bar'] }}});
+      assert.deepEqual(obj, {tasks: ['verb.template:foo,bar']});
+    });
+
     it('should split comma-separated tasks', function() {
       var schema = cliSchema(app);
       var obj = schema.normalize({tasks: 'foo,bar,baz'});

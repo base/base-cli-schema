@@ -31,7 +31,7 @@ describe('.cwd', function() {
         schema.normalize(['--cwd=foo,bar,baz']);
         cb(new Error('expected an error'));
       } catch (err) {
-        assert.equal(err.message, "--toc: expected a string or boolean, but received: [ 'foo', 'bar', 'baz' ]");
+        assert.equal(err.message, "--cwd: expected a string or boolean, but received: [ 'foo', 'bar', 'baz' ]");
         cb();
       }
     });

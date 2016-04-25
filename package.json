@@ -1,7 +1,7 @@
 {
   "name": "base-cli-schema",
   "description": "Schema for the base-cli plugin, used for normalizing argv values before passing them to cli.process().",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "homepage": "https://github.com/jonschlinkert/base-cli-schema",
   "author": "Jon Schlinkert (https://github.com/jonschlinkert)",
   "repository": "jonschlinkert/base-cli-schema",

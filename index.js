@@ -61,6 +61,9 @@ module.exports = function(app, options) {
     .field('cwd', ['boolean', 'string'], {
       normalize: fields.cwd(app, opts)
     })
+    .field('dest', ['boolean', 'string'], {
+      normalize: fields.dest(app, opts)
+    })
     .field('emit', ['array', 'boolean', 'string'], {
       normalize: fields.emit(app, opts)
     })
@@ -92,8 +95,7 @@ module.exports = function(app, options) {
   var normalizeField = schema.normalizeField;
   schema.normalizeField = function(key, value, config, options) {
     var field = schema.get(key);
-
-    var isUndefined = typeof val === 'undefined'
+    var isUndefined = typeof value === 'undefined'
       && typeof config[key] === 'undefined'
       && typeof field.default === 'undefined';
 
@@ -103,9 +105,11 @@ module.exports = function(app, options) {
 
     debug.field(key, value);
     normalizeField.apply(schema, arguments);
+
     if (typeof config[key] !== 'undefined') {
       debug.results(key, config[key]);
     }
+    return config[key];
   };
 
   var normalizeSchema = schema.normalize;
@@ -115,6 +119,9 @@ module.exports = function(app, options) {
     }
 
     var obj = pluralize(processArgv(app, argv));
+    if (argv.orig && argv.orig._) {
+      obj.tasks = argv.orig._;
+    }
     var res = normalizeSchema.call(schema, obj, opts);
 
     for (var key in utils.aliases) {
@@ -122,7 +129,6 @@ module.exports = function(app, options) {
         res[utils.aliases[key]] = res[key];
       }
     }
-
     utils.define(res, 'isNormalized', true);
     return res;
   };

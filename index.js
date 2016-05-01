@@ -119,9 +119,6 @@ module.exports = function(app, options) {
     }
 
     var obj = pluralize(processArgv(app, argv));
-    if (argv.orig && argv.orig._) {
-      obj.tasks = argv.orig._;
-    }
     var res = normalizeSchema.call(schema, obj, opts);
 
     for (var key in utils.aliases) {

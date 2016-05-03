@@ -59,21 +59,18 @@ describe('.config.toc', function() {
       var schema = cliSchema(app);
       var obj = schema.normalize(['--config.toc=false']);
       assert.deepEqual(obj.config.toc, false);
-      assert.deepEqual(obj.c.toc, false);
     });
 
     it('should convert true boolean to an object', function() {
       var schema = cliSchema(app);
       var obj = schema.normalize(['--config.toc=true']);
       assert.deepEqual(obj.config.toc, true);
-      assert.deepEqual(obj.c.toc, true);
     });
 
     it('should convert true to an object', function() {
       var schema = cliSchema(app);
       var obj = schema.normalize(['--config.toc']);
       assert.deepEqual(obj.config.toc, true);
-      assert.deepEqual(obj.c.toc, true);
     });
   });
 
@@ -82,7 +79,6 @@ describe('.config.toc', function() {
       var schema = cliSchema(app);
       var obj = schema.normalize({config: {toc: false}});
       assert.deepEqual(obj.config.toc, false);
-      assert.deepEqual(obj.c.toc, false);
     });
   });
 });

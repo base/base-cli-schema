@@ -64,7 +64,6 @@ describe('.config.tasks', function() {
       var schema = cliSchema(app);
       var obj = schema.normalize(['--config.tasks=foo,bar,baz']);
       assert.deepEqual(obj.config, {tasks: ['foo', 'bar', 'baz']});
-      assert.deepEqual(obj.c, {tasks: ['foo', 'bar', 'baz']});
     });
   });
 
@@ -85,21 +84,18 @@ describe('.config.tasks', function() {
       var schema = cliSchema(app);
       var obj = schema.normalize({config: {tasks: 'default'}});
       assert.deepEqual(obj.config, {tasks: ['default']});
-      assert.deepEqual(obj.c, {tasks: ['default']});
     });
 
     it('should return an array', function() {
       var schema = cliSchema(app);
       var obj = schema.normalize({config: {tasks: ['default']}});
       assert.deepEqual(obj.config, {tasks: ['default']});
-      assert.deepEqual(obj.c, {tasks: ['default']});
     });
 
     it('should split comma-separated tasks', function() {
       var schema = cliSchema(app);
       var obj = schema.normalize({config: {tasks: 'foo,bar,baz'}});
       assert.deepEqual(obj.config, {tasks: ['foo', 'bar', 'baz']});
-      assert.deepEqual(obj.c, {tasks: ['foo', 'bar', 'baz']});
     });
   });
 });

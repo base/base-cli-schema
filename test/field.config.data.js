@@ -61,7 +61,6 @@ describe('.config.data', function() {
       var schema = cliSchema(app);
       var obj = schema.normalize({config: {data: {foo: 'bar'}}});
       assert.deepEqual(obj.config.data, {foo: 'bar'});
-      assert.deepEqual(obj.c.data, {foo: 'bar'});
     });
   });
 });

@@ -133,7 +133,6 @@ describe('.config.helpers', function() {
       var schema = cliSchema(app);
       var obj = schema.normalize(actual);
       assert.deepEqual(obj.config, actual.config);
-      assert.deepEqual(obj.c, actual.config);
     });
   });
 });

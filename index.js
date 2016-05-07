@@ -84,13 +84,16 @@ module.exports = function(app, options) {
     })
     .field('toc', ['object', 'string', 'boolean'], {
       normalize: fields.toc(app, opts)
+    })
+    .field('use', ['object', 'string', 'boolean'], {
+      normalize: fields.use(app, opts)
     });
 
   // template related
   schema
     .field('layout', ['object', 'string', 'boolean', 'null'], {
       normalize: fields.layout(app, opts)
-    });
+    })
 
   var normalizeField = schema.normalizeField;
   schema.normalizeField = function(key, value, config, options) {

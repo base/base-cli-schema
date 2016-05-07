@@ -14,19 +14,20 @@ describe.only('.use', function() {
 
   describe('argv', function() {
     it('should conver arg to an absolute path', function() {
+      app.cwd = path.resolve(__dirname, 'fixtures/use');
       var schema = cliSchema(app);
-      var obj = schema.normalize(['--use=foo']);
-      assert.equal(obj.use[0], path.resolve('foo'));
+      var obj = schema.normalize(['--use=aaa']);
+      assert.equal(obj.use[0], path.resolve(app.cwd, 'aaa.js'));
     });
 
     it('should convert a string to an array', function() {
+      app.cwd = path.resolve(__dirname, 'fixtures/use');
       var schema = cliSchema(app);
-      var obj = schema.normalize(['--use=foo,bar,baz']);
+      var obj = schema.normalize(['--use=aaa,bbb']);
       assert.deepEqual(obj, {
         use: [
-          path.resolve('foo'),
-          path.resolve('bar'),
-          path.resolve('baz')
+          path.resolve(app.cwd, 'aaa.js'),
+          path.resolve(app.cwd, 'bbb.js'),
         ]
       });
     });
@@ -34,9 +35,10 @@ describe.only('.use', function() {
 
   describe('options object', function() {
     it('should convert a string to an array', function() {
+      app.cwd = path.resolve(__dirname, 'fixtures/use');
       var schema = cliSchema(app);
-      var obj = schema.normalize({use: 'foo'});
-      assert.deepEqual(obj, {use: [path.resolve('foo')]});
+      var obj = schema.normalize({use: 'aaa'});
+      assert.deepEqual(obj, {use: [path.resolve(app.cwd, 'aaa.js')]});
     });
   });
 });

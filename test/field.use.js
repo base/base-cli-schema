@@ -7,7 +7,7 @@ var cliSchema = require('..');
 var App = require('./support');
 var app;
 
-describe.only('.use', function() {
+describe('.use', function() {
   beforeEach(function() {
     app = new App();
   });

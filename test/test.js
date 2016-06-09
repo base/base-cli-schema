@@ -31,7 +31,7 @@ describe('base-cli-schema', function() {
 
   it('should throw an error when base-pkg is not registered', function(cb) {
     try {
-      var base = new Base();
+      var base = new Base({isApp: true});
       base.use(cwd());
       cliSchema(base);
       cb(new Error('expected an error'));
@@ -43,7 +43,7 @@ describe('base-cli-schema', function() {
 
   it('should throw an error when base-argv is not registered', function(cb) {
     try {
-      var base = new Base();
+      var base = new Base({isApp: true});
       base.use(cwd());
       base.use(pkg());
       cliSchema(base);
